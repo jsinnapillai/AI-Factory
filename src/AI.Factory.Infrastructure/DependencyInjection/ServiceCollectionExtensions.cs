@@ -9,6 +9,7 @@ using AI.Factory.Infrastructure.EventBus;
 using AI.Factory.Infrastructure.Logging;
 using AI.Factory.Infrastructure.Messaging;
 using AI.Factory.Orchestrator.Graph;
+using AI.Factory.Orchestrator.Lifecycle;
 using AI.Factory.Orchestrator.Services;
 using AI.Factory.TaskEngine;
 using AI.Factory.TaskEngine.Models;
@@ -98,6 +99,14 @@ namespace AI.Factory.Infrastructure.DependencyInjection
             services.AddScoped<TaskEngineService>();
             services.AddScoped<IEventPublisher, EventPublisher>();
             services.AddSingleton<GraphBuilder>();
+            services.AddScoped<OrchestratorEngine>();
+
+
+            services.AddSingleton<ExecutionGraph>();
+            services.AddSingleton<GraphBuilder>();
+
+            services.AddSingleton<AgentLifecycleManager>();
+
             services.AddScoped<OrchestratorEngine>();
 
             //            Database

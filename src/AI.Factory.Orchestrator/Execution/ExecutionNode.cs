@@ -14,6 +14,10 @@ namespace AI.Factory.Orchestrator.Execution
 
         public List<Guid> Dependencies { get; set; } = new();
 
-        public bool IsCompleted { get; set; }
+        public ExecutionStatus Status { get; set; } = ExecutionStatus.Pending;
+
+        public int RetryCount { get; set; }
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

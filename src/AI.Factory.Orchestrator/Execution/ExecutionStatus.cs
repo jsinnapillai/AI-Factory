@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace AI.Factory.Orchestrator.Execution
 {
-    public class ExecutionState
+    public enum ExecutionStatus
     {
-        public Guid ProjectId { get; set; }
-
-        public List<ExecutionNode> Nodes { get; set; } = new();
+        Pending,
+        Running,
+        Completed,
+        Failed,
+        Dead
     }
-
- 
 }

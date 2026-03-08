@@ -15,9 +15,14 @@ namespace AI.Factory.Orchestrator.Graph
         public IEnumerable<ExecutionNode> GetExecutableNodes()
         {
             return Nodes.Where(n =>
-                !n.IsCompleted &&
+                n.Status == ExecutionStatus.Pending &&
                 n.Dependencies.All(d =>
-                    Nodes.First(x => x.NodeId == d).IsCompleted));
+                    Nodes.First(x => x.NodeId == d).Status == ExecutionStatus.Completed));
+        }
+
+        public ExecutionNode? GetNode(Guid nodeId)
+        {
+            return Nodes.FirstOrDefault(x => x.NodeId == nodeId);
         }
     }
 }
