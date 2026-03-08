@@ -108,6 +108,7 @@ namespace AI.Factory.Infrastructure.DependencyInjection
             services.AddSingleton<AgentLifecycleManager>();
 
             services.AddScoped<OrchestratorEngine>();
+            services.AddScoped<IExecutionRepository, ExecutionRepository>();
 
             //            Database
             //Repositories
