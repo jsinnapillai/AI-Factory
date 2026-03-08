@@ -1,0 +1,296 @@
+# OPENCODE PROMPT — STAGE 1 (C# Modular Monolith, OpenRouter + DeepSeek)
+
+**Instructions for OpenCode using OpenRouter as primary provider:**
+
+You are an **Enterprise Software Architect + Senior .NET Engineer**. Your task is to **generate the foundation (Stage 1) of an AI-driven autonomous software factory** using **C# Modular Monolith** architecture.
+
+This stage focuses **only on core infrastructure**, no AI agents yet.
+
+---
+
+## 1. System Goal
+
+* Provide foundation for AI Software Factory capable of generating multiple applications.
+* Must include:
+
+  * Solution & project structure
+  * Event system contracts
+  * Database schema
+  * Logging & configuration
+  * Agent registry skeleton
+  * API entry point
+
+---
+
+## 2. Technology Stack
+
+* Language: C# (.NET 8)
+* API: ASP.NET Core Web API
+* Event Bus: MassTransit + Redis
+* Database: PostgreSQL
+* ORM: Dapper or EF Core
+* Logging: Serilog
+* Configuration: appsettings.json
+* Folder structure: modular monolith
+
+---
+
+## 3. Solution Structure
+
+AI.Factory/
+
+```
+AI.Factory.sln
+src/
+    AI.Factory.Api
+    AI.Factory.Core
+    AI.Factory.Events
+    AI.Factory.Agents
+    AI.Factory.Orchestrator
+    AI.Factory.TaskEngine
+    AI.Factory.ModelManager
+    AI.Factory.ContextEngine
+    AI.Factory.Infrastructure
+external/
+agents/specs/
+system-nodes/
+    logs/
+    events/
+    reasoning/
+database/
+    migrations/
+```
+
+---
+
+## 4. Project Responsibilities
+
+**AI.Factory.Api**
+
+* Entry point API
+* Endpoints:
+
+  * POST /api/request → publishes `UserRequestReceived`
+  * GET /api/tasks
+  * GET /api/events
+  * GET /api/agents
+
+**AI.Factory.Core**
+
+* Base domain models:
+
+  * Agent
+  * TaskItem
+  * Module
+  * Plan
+  * ExecutionLog
+* Interfaces:
+
+  * IAgent
+  * IEvent
+  * IRepository
+
+**AI.Factory.Events**
+
+* Event contracts:
+
+  * UserRequestReceived
+  * RequirementAnalyzed
+  * BusinessPlanCreated
+  * TechnicalPlanCreated
+  * TaskGraphBuilt
+  * TaskReadyForExecution
+  * TaskCompleted
+  * TaskFailed
+  * ReviewRequested
+  * ReviewPassed
+  * ReviewFailed
+
+Each event includes:
+
+* EventId
+* Timestamp
+* Source
+* Payload
+
+**AI.Factory.Agents**
+
+* BaseAgent abstract class
+* AgentRegistryService
+* Scans `agents/specs/` for YAML definitions
+
+**AI.Factory.Orchestrator**
+
+* Placeholder for IntentRouterService & MasterOrchestratorService
+
+**AI.Factory.TaskEngine**
+
+* Models:
+
+  * TaskItem
+  * TaskDependency
+  * TaskStatus (Pending, Ready, InProgress, Completed, Failed)
+* Interface: ITaskGraphService
+
+**AI.Factory.ModelManager**
+
+* Base structures:
+
+  * ModelProvider
+  * ModelMetrics
+  * ModelSelectionPolicy
+
+**AI.Factory.ContextEngine**
+
+* Placeholder for context/RAG engine
+* Services:
+
+  * ContextRetriever
+  * ContextIndexService
+
+**AI.Factory.Infrastructure**
+
+* Database configuration
+* Event bus configuration
+* Logging configuration
+* Repository implementations
+
+---
+
+## 5. Event Bus (MassTransit + Redis)
+
+* Configure Redis host: `localhost:6379`
+* Set up publisher/subscriber skeleton
+
+---
+
+## 6. Logging (Serilog)
+
+* Logs written to `/system-nodes/logs/`
+* Files:
+
+  * system.log
+  * event-stream.log
+  * agent-execution.log
+* Include timestamp, log level, event id, agent id
+
+---
+
+## 7. Database Schema (PostgreSQL)
+
+Tables:
+
+* agents
+* agent_capabilities
+* events
+* tasks
+* task_dependencies
+* plans
+* modules
+* model_metrics
+* executions
+
+Example `tasks` table:
+
+```sql
+task_id TEXT PRIMARY KEY
+module TEXT
+technology TEXT
+status TEXT
+plan_version TEXT
+created_at TIMESTAMP
+updated_at TIMESTAMP
+```
+
+---
+
+## 8. Agent Specification System
+
+* YAML specs in `agents/specs/`
+* Example:
+
+```yaml
+agent_id: AGENT-BA
+name: BusinessAnalystAgent
+event_subscriptions:
+  - UserRequestReceived
+event_outputs:
+  - BusinessPlanCreated
+capabilities:
+  - requirement_analysis
+```
+
+* Registry scans this folder dynamically.
+
+---
+
+## 9. Configuration (appsettings.json)
+
+Sections:
+
+```json
+{
+  "System": {
+    "Name": "AI Software Factory",
+    "Version": "1.0"
+  },
+  "EventBus": {
+    "Provider": "Redis"
+  },
+  "Database": {
+    "Provider": "PostgreSQL"
+  },
+  "Logging": {
+    "Level": "Detailed"
+  }
+}
+```
+
+---
+
+## 10. Developer Request Flow
+
+POST /api/request:
+
+1. Accept developer message
+2. Generate request id
+3. Publish `UserRequestReceived` event
+4. Persist event in database
+
+---
+
+## 11. Code Quality & Architecture Rules
+
+* Clean Architecture & SOLID principles
+* Dependency Injection
+* Async programming
+* Proper error handling
+* Modular monolith
+
+---
+
+## 12. Deliverables
+
+* Full .NET solution with projects & folders
+* Base domain models
+* Event contracts
+* Logging setup
+* Event bus skeleton
+* Agent registry loader
+* API endpoints
+* PostgreSQL schema & migrations
+
+**Important:** Compile successfully, but do **not implement AI agent logic yet.**
+
+---
+
+## Model Provider Instruction
+
+* **Use OpenRouter** as primary provider for reasoning and skeleton generation.
+* **DeepSeek Direct** is reserved for Stage-2+ for multi-file coding tasks.
+* Generate **all folder structure, project files, and scaffolds** with OpenRouter.
+* Keep code **minimal but compiling**, do not fill in agent logic yet.
+
+---
+
+**End of Stage-1 Prompt**

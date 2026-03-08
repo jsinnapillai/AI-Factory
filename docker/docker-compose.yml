@@ -1,0 +1,66 @@
+
+
+services:
+
+  postgres:
+    image: postgres:16
+    container_name: ai_factory_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aifactory
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_ai_factory_data:/var/lib/postgresql/data
+    networks:
+      - ai_factory_network
+
+  redis:
+    image: redis:7
+    container_name: ai_factory_redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_ai_factory_data:/data
+    networks:
+      - ai_factory_network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: ai_factory_rabbitmq
+    restart: always
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - ai_factory_network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: ai_factory_pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@aifactory.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    volumes:
+      - pgadmin_ai_factory_data:/var/lib/pgadmin
+    depends_on:
+      - postgres
+    networks:
+      - ai_factory_network
+
+volumes:
+  postgres_ai_factory_data:
+  redis_ai_factory_data:
+  pgadmin_ai_factory_data:
+
+networks:
+  ai_factory_network:
